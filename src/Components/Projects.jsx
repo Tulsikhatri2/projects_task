@@ -1,106 +1,108 @@
 import { Box } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TextField, Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { createProject } from "../Redux/ProjectsCRUD/dataSlice";
-
+import { createProject, updateProject } from "../Redux/ProjectsCRUD/Project/projectSlice";
+import { toast, Zoom } from "react-toastify";
+import "./Styling.css";
 import ProjectBox from "./ProjectBox";
-import { MdEdit } from "react-icons/md";
+import { BiEditAlt } from "react-icons/bi";
 
 const Projects = () => {
   const [projectTitle, setProjectTitle] = useState("");
+  const {editProject} =  useSelector(state=>state.projects)
   const dispatch = useDispatch();
-  const { projectsList } = useSelector((state) => state.data);
+
+  useEffect(()=>{
+    setProjectTitle(editProject?.project.title)
+  },[editProject])
+
   function handleSubmit() {
-    dispatch(
-      createProject({
-        id: crypto.randomUUID(),
-        title: projectTitle,
-      })
-    );
-    setProjectTitle("");
+    if (!projectTitle) {
+      toast.error('Add some name for your project!', {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Zoom,
+        });
+    } else {
+      if(editProject.isEdit){
+        dispatch(updateProject({
+          id: editProject.project.id,
+          title:projectTitle
+        }))
+      }
+      else{
+        dispatch(
+          createProject({
+            id: crypto.randomUUID(),
+            title: projectTitle,
+          })
+        );
+        toast.info('Project added sucessfully!', {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Zoom,
+          }) 
+      }
+       setProjectTitle("");
+    }
   }
 
   return (
     <>
-      <Box
-        sx={{
-          width: "100vw",
-          height: "100vh",
-          backgroundColor: "#0F1423",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Box
-          sx={{
-            width: "70%",
-            height: "80%",
-            backgroundColor: "#BCC1BA",
-            boxShadow: "0px 0px 30vh #000000",
-            borderRadius: "1rem",
-          }}
-        >
-          <Box
-            sx={{
-              width: "100%",
-              height: "15%",
-              borderRadius: "1rem",
-            }}
-          >
-            <h3
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "4vh",
-                color: "#092523",
-              }}
-            >
-              <span style={{ width: "40%", height: "50%", marginLeft: "7vw" }}>
+      <Box className="boxProject1">
+        <Box className="box2">
+          <Box className="box3">
+            <h3 className="headings">
+              <span className="headingSpan1">
                 <u>Projects</u>
               </span>
-              <span
-                style={{
-                  width: "60%",
-                  height: "50%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
+              <span className="headingSpan2">
                 <TextField
                   label="Add Projects"
                   variant="filled"
                   sx={{
                     "& .MuiFilledInput-root": {
-                      color: "#0F1423",
+                      color: "#2C0B1F",
+                      fontSize: "2vh",
                       fontWeight: "bold",
-                      backgroundColor: "#f4f4f4",
+                      backgroundColor: "white",
                       borderTopLeftRadius: "7px",
                       borderTopRightRadius: "7px",
                       height: "2.5rem",
                       width: "15rem",
-                      fontSize: "2vh",
+
                       "&:before": {
                         borderColor: "#2C0B1F",
+                        borderWidth: "1px",
+                        fontWeight: "bold",
                         fontSize: "2vh",
-                        color: "#0F1423",
                       },
                       "&:after": {
                         borderColor: "#2C0B1F",
+                        borderWidth: "3px",
                         fontSize: "2vh",
                         height: "2.5rem",
                         width: "15rem",
-                        color: "#0F1423",
                       },
                     },
                     "& .MuiInputLabel-filled": {
-                      color: "#AEABA8",
+                      color: "#8C8B89",
                       fontSize: "2vh",
                       "&.Mui-focused": {
-                        color: "#0F1423",
+                        color: "#000",
                         fontSize: "2vh",
                       },
                     },
@@ -123,92 +125,13 @@ const Projects = () => {
                   }}
                   onClick={handleSubmit}
                 >
-                  +
+                  {editProject.isEdit?<BiEditAlt style={{fontSize:"3vh"}}/>:"+"}
                 </Button>
               </span>
             </h3>
           </Box>
-          <Box
-            sx={{
-              width: "100%",
-              height: "65%",
-              display: "flex",
-              alignItems: "left",
-              justifyContent: "left",
-              flexWrap: "wrap",
-              marginLeft: "6vw",
-              // backgroundColor:"red"
-            }}
-          >
+          <Box className="box4">
             <ProjectBox />
-          </Box>
-          <Box
-            sx={{
-              width: "100%",
-              height: "15%",
-              display: "flex",
-              alignItems: "right",
-              justifyContent: "right",
-              marginLeft: "-7vw",
-            }}
-          >
-            <TextField
-              label="Update Projects"
-              variant="filled"
-              sx={{
-                "& .MuiFilledInput-root": {
-                  color: "#0F1423",
-                  fontSize: "2vh",
-                  fontWeight: "bold",
-                  backgroundColor: "white",
-                  borderTopLeftRadius: "7px",
-                  borderTopRightRadius: "7px",
-                  height: "2.5rem",
-                  width: "15rem",
-
-                  "&:before": {
-                    borderColor: "#2C0B1F",
-                    borderWidth: "1px",
-                    fontWeight: "bold",
-                    fontSize: "2vh",
-                  },
-                  "&:after": {
-                    borderColor: "#2C0B1F",
-                    borderWidth: "3px",
-                    fontSize: "2vh",
-                    height: "2.5rem",
-                    width: "15rem",
-                  },
-                },
-                "& .MuiInputLabel-filled": {
-                  color: "#0F1423",
-                  fontSize: "2vh",
-                  "&.Mui-focused": {
-                    color: "#000",
-                    fontSize: "2vh",
-                  },
-                },
-              }}
-              // value={projectTitle}
-              // onChange={(e) => setProjectTitle(e.target.value)}
-            />
-            <Button
-              variant="contained"
-              sx={{
-                color: "#0F1423",
-                backgroundColor: "white",
-                marginLeft: "2vh",
-                height: "6vh",
-                fontSize: "4vh",
-                "&:hover": {
-                  backgroundColor: "#0F1423",
-                  color: "white",
-                },
-              }}
-              onClick={handleSubmit}
-            >
-              <MdEdit />
-            </Button>
           </Box>
         </Box>
       </Box>

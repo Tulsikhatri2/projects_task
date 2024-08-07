@@ -4,29 +4,21 @@ import { Box } from "@mui/material";
 import { BiEditAlt } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
-import { deleteTodos } from "../Redux/ProjectsCRUD/dataSlice";
+import { deleteTodos } from "../Redux/ProjectsCRUD/Todo/todoSlice";
 import { useParams } from "react-router-dom";
 
-const TodosList = () => {
-  const { todosList } = useSelector((state) => state.data);
+const TodosList = ({ featureTodo }) => {
+  const { todoList } = useSelector((state) => state.todos);
   const dispatch = useDispatch();
   const { f_id } = useParams();
-  console.log(todosList, "data Todos");
+  console.log(todoList, "data Todos");
 
   console.log(f_id, "from todo feature");
 
-  if (todosList?.length === 0) {
+  if (featureTodo?.length === 0) {
     return (
       <>
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            textAlign: "center",
-            justifyContent: "center",
-            marginTop:"10vh"
-          }}
-        >
+        <Box className="blankScreen">
           <h4>Add some todos...</h4>
         </Box>
       </>
@@ -39,45 +31,28 @@ const TodosList = () => {
 
   return (
     <>
-      {todosList?.map((item) => {
+      {featureTodo?.map((item) => {
         return (
-          <Box
-            sx={{
-              width: "70%",
-              height: "15%",
-              backgroundColor: "white",
-              borderRadius: "1rem",
-              boxShadow: "inset 0px 0px 10px #000",
-              paddingLeft: "2vh",
-              paddingRight: "2vh",
-              marginTop: "2vh",
-            }}
-          >
-            <p style={{ marginTop: "2.5vh", display: "flex" }}>
+          <Box className="todoListBox">
+            <p style={{ marginTop: "2.3vh", display: "flex" }}>
               <span style={{ width: "55%" }}>{item.title}</span>
-              <span
-                style={{
-                  width: "45%",
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "right",
-                  fontSize: "4vh",
-                }}
-              >
-                <span style={{ color: "#216E45" }}>
+
+              <span className="todoListSpan1">
+                <span style={{ color: "#216E45", fontSize:"3.2vh" }}>
                   <BiEditAlt />
                 </span>
+
                 <span
-                  style={{ color: "#782B2B", marginLeft: "2vh" }}
+                  style={{ color: "#782B2B", marginLeft: "2vh", fontSize:"3.2vh" }}
                   onClick={() => {
                     handleDeleteTodo(item.id);
                   }}
                 >
-                  <RiDeleteBin6Line />{" "}
+                  <RiDeleteBin6Line />
                 </span>
-                <span style={{ color: "#9B6486", marginLeft: "2vh" }}>
-                  <IoMdCheckmarkCircleOutline />{" "}
+
+                <span style={{ color: "#9B6486", marginLeft: "2vh" , fontSize:"3.2vh"}}>
+                  <IoMdCheckmarkCircleOutline />
                 </span>
               </span>
             </p>

@@ -6,8 +6,6 @@ const dataReducer = createSlice({
     projectsList: [],
     featuresList: [],
     todosList: [],
-    featuresCount: 0,
-    todosCount: 0,
   },
   reducers: {
     createProject: (state, action) => {
@@ -59,15 +57,6 @@ const dataReducer = createSlice({
         todosList: list,
       };
     },
-    projectFeatures: (state, action) => {
-      const featuresData = state.featuresList?.filter(
-        (item) => item.p_id === action.payload
-      );
-      return {
-        ...state,
-        featuresList: featuresData,
-      };
-    },
   },
 });
 
@@ -78,6 +67,5 @@ export const {
   deleteProject,
   createTodos,
   deleteTodos,
-  projectFeatures,
 } = dataReducer.actions;
 export default dataReducer.reducer;

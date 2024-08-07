@@ -3,28 +3,19 @@ import { Box, Button } from "@mui/material";
 import { BiEditAlt } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteProject } from "../Redux/ProjectsCRUD/dataSlice";
+import { deleteProject, editProject } from "../Redux/ProjectsCRUD/Project/projectSlice";
 import { useNavigate } from "react-router-dom";
 
 const ProjectBox = () => {
-  const { projectsList, todosCount } = useSelector((state) => state.data);
-  console.log(projectsList, "projects");
+  const { projectList } = useSelector((state) => state.projects);
+  console.log(projectList, "projects");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  if (projectsList?.length === 0) {
+  if (projectList?.length === 0) {
     return (
       <>
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            textAlign: "center",
-            justifyContent: "center",
-            marginLeft: "-6vw",
-            marginTop: "5vh",
-          }}
-        >
+        <Box className="blankScreen">
           <h4>Add some projects...</h4>
         </Box>
       </>
@@ -38,35 +29,19 @@ const ProjectBox = () => {
   function handleDeleteProject(id) {
     dispatch(deleteProject(id));
   }
+
+  function handleProjectEdit(project){
+    dispatch(editProject(project))
+  }
+
   return (
     <>
-      {projectsList?.map((item, index) => {
+      {projectList?.map((item, index) => {
         return (
           <>
-            <Box
-              key={index}
-              sx={{
-                width: "17%",
-                height: "30%",
-                backgroundColor: "#fff",
-                margin: "2vh",
-                borderRadius: "2vh",
-                boxShadow: "inset 0px 0px 10px #000",
-                cursor: "pointer",
-                paddingLeft: "1vh",
-              }}
-            >
-              <p style={{ marginLeft: "10px", marginTop: "1vh" }}>
-                {item.title}
-              </p>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  width: "6vw",
-                }}
-              >
+            <Box key={index} className="projectBox1">
+              <p className="title">{item.title}</p>
+              <div className="projectDiv">
                 <Button
                   sx={{
                     height: "3vh",
@@ -84,7 +59,7 @@ const ProjectBox = () => {
                     handleFeatures(item.id);
                   }}
                 >
-                  Feature
+                  Feature:
                 </Button>
                 <Button
                   sx={{
@@ -104,32 +79,14 @@ const ProjectBox = () => {
                     handleFeatures(item.id);
                   }}
                 >
-                  Todos: {todosCount}
+                  Todos:
                 </Button>
               </div>
-              <p
-                style={{
-                  textAlign: "right",
-                  lineHeight: "0px",
-                  diaplay: "flex",
-                  flexDirection: "row",
-                  marginTop: "-3vh ",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <span
-                  style={{
-                    fontSize: "3vh",
-                    color: "#216E45",
-                    marginRight: "1vw",
-                  }}
-                >
-                  <BiEditAlt />
+              <p className="projectParagraph">
+                <span className="projectSpan1">
+                  <BiEditAlt  onClick={()=>handleProjectEdit(item)}/>
                 </span>
-                <span
-                  style={{ fontSize: "3vh", color: "red", marginRight: "1vw" }}
-                >
+                <span className="projectSpan2">
                   <RiDeleteBin6Line
                     onClick={() => {
                       handleDeleteProject(item.id);

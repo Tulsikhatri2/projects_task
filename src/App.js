@@ -1,8 +1,11 @@
 import React from "react";
+import "./Components/Styling.css"
 import Projects from "./Components/Projects";
 import { Route, Routes } from "react-router-dom";
 import Features from "./Components/Features";
 import Todos from "./Components/Todos";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (
@@ -12,6 +15,7 @@ const App = () => {
         <Route path="/features/:p_id" element={<Features />} />
         <Route path="/todos/:f_id" element={<Todos />} />
       </Routes>
+      <ToastContainer/>
     </>
   );
 };

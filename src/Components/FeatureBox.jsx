@@ -1,35 +1,25 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Box, Button } from "@mui/material";
 import { BiEditAlt } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { deleteFeature } from "../Redux/ProjectsCRUD/dataSlice";
 import { useNavigate } from "react-router-dom";
+import { editFeature } from "../Redux/ProjectsCRUD/Feature/featureSlice";
 
-const FeatureBox = () => {
-  const { featuresList } = useSelector((state) => state.data);
+const FeatureBox = ({ projectFeature }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  if (featuresList?.length === 0) {
+
+  if (projectFeature?.length === 0) {
     return (
       <>
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            textAlign: "center",
-            justifyContent: "center",
-            marginLeft: "-6vw",
-            marginTop: "5vh",
-          }}
-        >
+        <Box className="blankScreen">
           <h4>Add some features...</h4>
         </Box>
       </>
     );
   }
-
-  console.log(featuresList, "featuresbox");
 
   function handleDeleteFeature(id) {
     dispatch(deleteFeature(id));
@@ -39,26 +29,17 @@ const FeatureBox = () => {
     navigate(`/todos/${f_id}`);
   }
 
+  function handleFeatureEdit(feature){
+    dispatch(editFeature(feature))
+  }
+
   return (
     <>
-      {featuresList?.map((item) => {
+      {projectFeature?.map((item) => {
         return (
           <>
-            <Box
-              sx={{
-                width: "17%",
-                height: "30%",
-                backgroundColor: "#fff",
-                margin: "2vh",
-                borderRadius: "2vh",
-                boxShadow: "inset 0px 0px 10px #000",
-                cursor: "pointer",
-                paddingLeft: "1vh",
-              }}
-            >
-              <p style={{ marginLeft: "10px", marginTop: "2vh" }}>
-                {item.title}
-              </p>
+            <Box className="projectBox1">
+              <p className="title">{item.title}</p>
 
               <Button
                 sx={{
@@ -80,28 +61,12 @@ const FeatureBox = () => {
               >
                 Todos:
               </Button>
-              <p
-                style={{
-                  textAlign: "right",
-                  lineHeight: "0px",
-                  diaplay: "flex",
-                  flexDirection: "row",
-                  marginTop: "-2.5vh ",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <span
-                  style={{
-                    fontSize: "3vh",
-                    color: "#216E45",
-                    marginRight: "1vw",
-                  }}
-                >
-                  <BiEditAlt />
+              <p className="projectParagraph">
+                <span className="projectSpan1">
+                  <BiEditAlt onClick={handleFeatureEdit(item)}/>
                 </span>
                 <span
-                  style={{ fontSize: "3vh", color: "red", marginRight: "1vw" }}
+                  className="projectSpan2"
                   onClick={() => handleDeleteFeature(item.id)}
                 >
                   <RiDeleteBin6Line />

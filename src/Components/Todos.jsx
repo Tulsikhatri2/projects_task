@@ -2,17 +2,35 @@ import { Box } from "@mui/material";
 import React, { useState } from "react";
 import { TextField, Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { createTodos } from "../Redux/ProjectsCRUD/dataSlice";
+import { createTodos } from "../Redux/ProjectsCRUD/Todo/todoSlice";
 import TodosList from "./TodosList";
 import { useParams } from "react-router-dom";
+import { toast, Zoom } from "react-toastify";
 
 const Todos = () => {
   const [todosTitle, setTodosTitle] = useState("");
   const dispatch = useDispatch();
   const { f_id } = useParams();
-  const { todosList } = useSelector((state) => state.data);
+  const { todoList } = useSelector((state) => state.todos);
+
+  const todoData = todoList
+  const featureTodo = todoData.filter((item)=>item.featureId == f_id)
 
   function handleTodosSubmit() {
+    if(!todosTitle){
+      toast.error('Add some name for your todo!', {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Zoom,
+        });
+    }
+    else{
     dispatch(
       createTodos({
         id: crypto.randomUUID(),
@@ -20,83 +38,63 @@ const Todos = () => {
         featureId: f_id,
       })
     );
+    toast.info('Todo added sucessfully!', {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Zoom,
+      });
     setTodosTitle("");
+  }
   }
 
   return (
     <>
-      <Box
-        sx={{
-          width: "100vw",
-          height: "100vh",
-          backgroundColor: "#091916",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Box
-          sx={{
-            width: "70%",
-            height: "80%",
-            backgroundColor: "#BCC1BA",
-            boxShadow: "0px 0px 30vh #000000",
-            borderRadius: "1rem",
-          }}
-        >
-          <Box
-            sx={{
-              width: "100%",
-              height: "15%",
-              borderRadius: "1rem",
-            }}
-          >
-            <h3
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "4vh",
-                color: "#092523",
-              }}
-            >
-              <span style={{ width: "40%", height: "50%", marginLeft: "7vw" }}>
+      <Box className="boxTodo1">
+        <Box className="box2">
+          <Box className="box3">
+            <h3 className="headings">
+              <span className="headingSpan1">
                 <u>Todos</u>
               </span>
-              <span
-                style={{
-                  width: "60%",
-                  height: "50%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
+              <span className="headingSpan2">
                 <TextField
                   label="Add Todos"
                   variant="filled"
                   sx={{
                     "& .MuiFilledInput-root": {
                       color: "#2C0B1F",
+                      fontSize: "2vh",
                       fontWeight: "bold",
-                      backgroundColor: "#f4f4f4",
+                      backgroundColor: "white",
                       borderTopLeftRadius: "7px",
                       borderTopRightRadius: "7px",
+                      height: "2.5rem",
+                      width: "15rem",
+    
                       "&:before": {
                         borderColor: "#2C0B1F",
-                        borderWidth: "3px",
+                        borderWidth: "1px",
+                        fontWeight: "bold",
+                        fontSize: "2vh",
                       },
                       "&:after": {
                         borderColor: "#2C0B1F",
                         borderWidth: "3px",
+                        fontSize: "2vh",
                       },
                     },
                     "& .MuiInputLabel-filled": {
-                      color: "#BFBFBF",
-                      fontWeight: "bold",
+                      color: "#8C8B89",
+                      fontSize: "2vh",
                       "&.Mui-focused": {
                         color: "#000",
-                        fontWeight: "bold",
+                        fontSize: "2vh",
                       },
                     },
                   }}
@@ -106,10 +104,10 @@ const Todos = () => {
                 <Button
                   variant="contained"
                   sx={{
-                    color: "#2C0B1F",
+                    color: "#091916",
                     backgroundColor: "white",
                     marginLeft: "2vh",
-                    height: "8vh",
+                    height: "6vh",
                     fontSize: "4vh",
                     "&:hover": {
                       backgroundColor: "#091916",
@@ -123,17 +121,8 @@ const Todos = () => {
               </span>
             </h3>
           </Box>
-          <Box
-            sx={{
-              width: "100%",
-              height: "75%",
-              display: "flex",
-              alignItems: "center",
-              flexWrap: "wrap",
-              flexDirection: "column",
-            }}
-          >
-            <TodosList />
+          <Box className="boxTodo4">
+            <TodosList featureTodo={featureTodo}/>
           </Box>
         </Box>
       </Box>
