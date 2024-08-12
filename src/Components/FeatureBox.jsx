@@ -3,13 +3,16 @@ import { useDispatch } from "react-redux";
 import { Box, Button } from "@mui/material";
 import { BiEditAlt } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { deleteFeature } from "../Redux/ProjectsCRUD/dataSlice";
-import { useNavigate } from "react-router-dom";
-import { editFeature } from "../Redux/ProjectsCRUD/Feature/featureSlice";
+import { deleteFeature } from "../Redux/ProjectsCRUD/Feature/featureSlice";
+import { useNavigate, useParams } from "react-router-dom";
+import { editingFeature } from "../Redux/ProjectsCRUD/Feature/featureSlice";
+import { featureTodoDeleted } from "../Redux/ProjectsCRUD/Todo/todoSlice";
 
 const FeatureBox = ({ projectFeature }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {pID} = useParams()
+  // console.log(pID, "featureprojectID")
 
   if (projectFeature?.length === 0) {
     return (
@@ -23,14 +26,16 @@ const FeatureBox = ({ projectFeature }) => {
 
   function handleDeleteFeature(id) {
     dispatch(deleteFeature(id));
+    dispatch(featureTodoDeleted(id))
   }
 
-  function handleTodos(f_id) {
-    navigate(`/todos/${f_id}`);
+  function handleTodos(fID) {
+    navigate(`/todos/${fID}/${pID}`);
   }
 
-  function handleFeatureEdit(feature){
-    dispatch(editFeature(feature))
+  const handleFeatureEdit = (feature) => {
+    console.log("121332")
+    dispatch(editingFeature(feature))
   }
 
   return (
@@ -40,36 +45,36 @@ const FeatureBox = ({ projectFeature }) => {
           <>
             <Box className="projectBox1">
               <p className="title">{item.title}</p>
-
+              <div className="projectDiv">
               <Button
                 sx={{
-                  height: "4vh",
+                  height: "3vh",
                   backgroundColor: "#0F1423",
                   color: "white",
                   marginLeft: "10px",
                   fontSize: "1.5vh",
-                  marginTop: "1vh",
                   "&:hover": {
                     backgroundColor: "#BCC1BA",
                     color: "#0F1423",
                     fontWeight: "bold",
+                    cursor:"pointer"
                   },
                 }}
                 onClick={() => {
                   handleTodos(item.id);
                 }}
               >
-                Todos:
+                Todos
               </Button>
+              </div>
               <p className="projectParagraph">
                 <span className="projectSpan1">
-                  <BiEditAlt onClick={handleFeatureEdit(item)}/>
+                  <BiEditAlt
+                   onClick={()=>handleFeatureEdit(item)}
+                   />
                 </span>
-                <span
-                  className="projectSpan2"
-                  onClick={() => handleDeleteFeature(item.id)}
-                >
-                  <RiDeleteBin6Line />
+                <span className="projectSpan2">
+                  <RiDeleteBin6Line onClick={() => handleDeleteFeature(item.id)}/>
                 </span>
               </p>
             </Box>

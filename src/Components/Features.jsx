@@ -1,33 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { createFeature } from "../Redux/ProjectsCRUD/Feature/featureSlice";
+// import { createFeature } from "../Redux/ProjectsCRUD/Feature/featureSlice";
 import FeatureBox from "./FeatureBox";
 import { useParams } from "react-router-dom";
-import { toast,Zoom } from "react-toastify";
+import { toast, Zoom } from "react-toastify";
 import { BiEditAlt } from "react-icons/bi";
+import {
+  createFeature,
+  featureCountUpdate,
+  updateFeature,
+} from "../Redux/ProjectsCRUD/Feature/featureSlice";
 
 const Features = () => {
-  const { featureList,editFeature } = useSelector((state) => state.features);
-  const { p_id } = useParams();
-  console.log(p_id)
+  const { featureList, editFeature } = useSelector((state) => state.features);
+  const { pID } = useParams();
   const [featureTitle, setFeatureTitle] = useState("");
-
   const dispatch = useDispatch();
 
-  const data = featureList
-  const projectFeature = data?.filter((item) => item?.projectID == p_id);
-  console.log(data,"feature data")
+  const projectFeature = featureList?.filter((item) => item.projectID === pID);
 
- 
+  useEffect(() => {
+    setFeatureTitle(editFeature?.feature?.title);
+  }, [editFeature]);
 
-  useEffect(()=>{
-    setFeatureTitle(editFeature?.feature?.title)
-  },[editFeature])
-
-  function handleSubmit() {
-    if(!featureTitle){
-      toast.error('Add some name for your feature!', {
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!featureTitle) {
+      toast.error("Add some name for your feature!", {
         position: "top-center",
         autoClose: 1000,
         hideProgressBar: false,
@@ -37,30 +37,49 @@ const Features = () => {
         progress: undefined,
         theme: "light",
         transition: Zoom,
+      });
+    } else {
+      if (!editFeature?.isEdit) {
+        dispatch(
+          createFeature({
+            id: crypto.randomUUID(),
+            title: featureTitle,
+            projectID: pID,
+          })
+        );
+        toast.info("Feature added sucessfully!", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Zoom,
         });
-    }
-    else{
-      dispatch(
-        createFeature({
-          id: crypto.randomUUID(),
-          title: featureTitle,
-          projectID: p_id,
-        })
-      );
-      toast.info('Feature added sucessfully!', {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Zoom,
+      } else {
+        dispatch(
+          updateFeature({
+            id: editFeature.feature.id,
+            title: featureTitle,
+            projectID: editFeature.feature.projectID,
+          })
+        );
+        toast.info("Feature updated sucessfully!", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Zoom,
         });
+      }
       setFeatureTitle("");
     }
-   
   }
 
   return (
@@ -126,13 +145,17 @@ const Features = () => {
                   }}
                   onClick={handleSubmit}
                 >
-                  {editFeature?.isEdit?<BiEditAlt style={{fontSize:"3vh"}}/>:"+"}
+                  {editFeature?.isEdit ? (
+                    <BiEditAlt style={{ fontSize: "3vh" }} />
+                  ) : (
+                    "+"
+                  )}
                 </Button>
               </span>
             </h3>
           </Box>
           <Box className="box4">
-            <FeatureBox projectFeature={projectFeature}/>
+            <FeatureBox projectFeature={projectFeature} />
           </Box>
         </Box>
       </Box>

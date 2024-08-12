@@ -5,10 +5,11 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProject, editProject } from "../Redux/ProjectsCRUD/Project/projectSlice";
 import { useNavigate } from "react-router-dom";
+import { projectTodoDelete } from "../Redux/ProjectsCRUD/Todo/todoSlice";
+import { projectFeatureDelete } from "../Redux/ProjectsCRUD/Feature/featureSlice";
 
 const ProjectBox = () => {
-  const { projectList } = useSelector((state) => state.projects);
-  console.log(projectList, "projects");
+  const { projectList,  } = useSelector((state) => state.projects);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -22,12 +23,14 @@ const ProjectBox = () => {
     );
   }
 
-  function handleFeatures(p_id) {
-    navigate(`/features/${p_id}`);
+  function handleFeatures(pID) {
+    navigate(`/features/${pID}`);
   }
 
   function handleDeleteProject(id) {
     dispatch(deleteProject(id));
+    dispatch(projectTodoDelete(id))
+    dispatch(projectFeatureDelete(id))
   }
 
   function handleProjectEdit(project){
@@ -53,33 +56,14 @@ const ProjectBox = () => {
                       backgroundColor: "#BCC1BA",
                       color: "#0F1423",
                       fontWeight: "bold",
+                      cursor:"pointer"
                     },
                   }}
                   onClick={() => {
                     handleFeatures(item.id);
                   }}
                 >
-                  Feature:
-                </Button>
-                <Button
-                  sx={{
-                    height: "3vh",
-                    backgroundColor: "#0F1423",
-                    color: "white",
-                    marginLeft: "10px",
-                    fontSize: "1.5vh",
-                    marginTop: "1vh",
-                    "&:hover": {
-                      backgroundColor: "#BCC1BA",
-                      color: "#0F1423",
-                      fontWeight: "bold",
-                    },
-                  }}
-                  onClick={() => {
-                    handleFeatures(item.id);
-                  }}
-                >
-                  Todos:
+                  Feature
                 </Button>
               </div>
               <p className="projectParagraph">

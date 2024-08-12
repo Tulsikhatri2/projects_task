@@ -17,7 +17,8 @@ const Projects = () => {
     setProjectTitle(editProject?.project.title)
   },[editProject])
 
-  function handleSubmit() {
+  function handleSubmit(e) {
+    e.preventDefault()
     if (!projectTitle) {
       toast.error('Add some name for your project!', {
         position: "top-center",
@@ -36,6 +37,17 @@ const Projects = () => {
           id: editProject.project.id,
           title:projectTitle
         }))
+        toast.info('Project updated sucessfully!', {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Zoom,
+          }) 
       }
       else{
         dispatch(

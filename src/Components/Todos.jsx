@@ -1,20 +1,28 @@
 import { Box } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField, Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { createTodos } from "../Redux/ProjectsCRUD/Todo/todoSlice";
+import { createTodos, updateTodos } from "../Redux/ProjectsCRUD/Todo/todoSlice";
 import TodosList from "./TodosList";
 import { useParams } from "react-router-dom";
 import { toast, Zoom } from "react-toastify";
+import { BiEditAlt } from "react-icons/bi";
 
 const Todos = () => {
   const [todosTitle, setTodosTitle] = useState("");
   const dispatch = useDispatch();
-  const { f_id } = useParams();
-  const { todoList } = useSelector((state) => state.todos);
+  const { fID } = useParams();
+  const {pID} = useParams()
+  const { todoList, editTodo } = useSelector((state) => state.todos);
 
-  const todoData = todoList
-  const featureTodo = todoData.filter((item)=>item.featureId == f_id)
+  // const todoData = todoList
+  const featureTodo = todoList?.filter((item)=>item?.featureId == fID)
+
+
+  useEffect(()=>{
+    setTodosTitle(editTodo?.todo.title)
+  },[editTodo])
+
 
   function handleTodosSubmit() {
     if(!todosTitle){
@@ -31,24 +39,47 @@ const Todos = () => {
         });
     }
     else{
-    dispatch(
-      createTodos({
-        id: crypto.randomUUID(),
-        title: todosTitle,
-        featureId: f_id,
-      })
-    );
-    toast.info('Todo added sucessfully!', {
-      position: "top-center",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      transition: Zoom,
-      });
+      if(!editTodo?.isEdit){
+        dispatch(
+          createTodos({
+            id: crypto.randomUUID(),
+            title: todosTitle,
+            featureId: fID,
+            projectID : pID
+          })
+        );
+        toast.info('Todo added sucessfully!', {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Zoom,
+          });
+      }
+      else{
+        dispatch(updateTodos({
+          id:editTodo.todo.id,
+          title:todosTitle,
+          featureId:editTodo.todo.featureId,
+          projectID: editTodo.todo.projectID
+        }))
+        toast.info('Todo updated sucessfully!', {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Zoom,
+          });
+      }
+    
     setTodosTitle("");
   }
   }
@@ -116,7 +147,11 @@ const Todos = () => {
                   }}
                   onClick={handleTodosSubmit}
                 >
-                  +
+                 {editTodo?.isEdit ? (
+                    <BiEditAlt style={{ fontSize: "3vh" }} />
+                  ) : (
+                    "+"
+                  )}
                 </Button>
               </span>
             </h3>

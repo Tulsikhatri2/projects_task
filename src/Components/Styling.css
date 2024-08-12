@@ -98,7 +98,6 @@
     margin: 2vh;
     border-radius: 2vh;
     box-shadow: inset 0px 0px 10px #000;
-    cursor: pointer;
     padding-left: 1vh
 }
 
@@ -108,10 +107,8 @@
 }
 
 .projectDiv{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 6vw
+    width: 6vw;
+    margin-top: 5vh;
 }
 
 .projectParagraph{
@@ -129,11 +126,17 @@
     color: #216E45;
     margin-right: 0.5vw
 }
+.projectSpan1:hover{
+    cursor: pointer;
+}
 
 .projectSpan2{
     font-size: 3vh;
     color: red;
     margin-right: 1vw 
+}
+.projectSpan2:hover{
+    cursor: pointer;
 }
 
 .blankScreen{
@@ -163,4 +166,40 @@
     align-items: center;
     justify-content: right;
     font-size: 4vh
+}
+
+.editTodoButton{
+    color: #216E45;
+    font-size:3.2vh;
+    cursor: pointer;
+}
+
+.deleteTodoButton{
+    color: #782B2B;
+    margin-left: 2vh;
+    font-size:3.2vh;
+    cursor: pointer;
+}
+
+.completedTodoButton{
+    color: #9B6486;
+    margin-left: 2vh;
+    font-size:3.2vh;
+    cursor: pointer;
+}
+
+.todoTitle{
+    width: 55% 
+}
+
+.todoCompleted{
+    width: 55% ;
+    text-decoration: line-through maroon 0.5vh;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.disabledButton{
+    opacity: 0.6;
+    cursor: not-allowed;
 }
