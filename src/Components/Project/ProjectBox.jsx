@@ -3,10 +3,10 @@ import { Box, Button } from "@mui/material";
 import { BiEditAlt } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteProject, editProject } from "../Redux/ProjectsCRUD/Project/projectSlice";
+import { deleteProject, editProject } from "../../Redux/ProjectsCRUD/Project/projectSlice";
 import { useNavigate } from "react-router-dom";
-import { projectTodoDelete } from "../Redux/ProjectsCRUD/Todo/todoSlice";
-import { projectFeatureDelete } from "../Redux/ProjectsCRUD/Feature/featureSlice";
+import { projectTodoDelete } from "../../Redux/ProjectsCRUD/Todo/todoSlice";
+import { projectFeatureDelete } from "../../Redux/ProjectsCRUD/Feature/featureSlice";
 
 const ProjectBox = () => {
   const { projectList,  } = useSelector((state) => state.projects);

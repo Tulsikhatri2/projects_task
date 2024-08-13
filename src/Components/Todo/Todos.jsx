@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { TextField, Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { createTodos, updateTodos } from "../Redux/ProjectsCRUD/Todo/todoSlice";
+import { createTodos, updateTodos } from "../../Redux/ProjectsCRUD/Todo/todoSlice";
 import TodosList from "./TodosList";
 import { useParams } from "react-router-dom";
 import { toast, Zoom } from "react-toastify";

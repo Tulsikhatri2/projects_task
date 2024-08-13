@@ -3,10 +3,10 @@ import { useDispatch } from "react-redux";
 import { Box, Button } from "@mui/material";
 import { BiEditAlt } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { deleteFeature } from "../Redux/ProjectsCRUD/Feature/featureSlice";
+import { deleteFeature } from "../../Redux/ProjectsCRUD/Feature/featureSlice";
 import { useNavigate, useParams } from "react-router-dom";
-import { editingFeature } from "../Redux/ProjectsCRUD/Feature/featureSlice";
-import { featureTodoDeleted } from "../Redux/ProjectsCRUD/Todo/todoSlice";
+import { editingFeature } from "../../Redux/ProjectsCRUD/Feature/featureSlice";
+import { featureTodoDeleted } from "../../Redux/ProjectsCRUD/Todo/todoSlice";
 
 const FeatureBox = ({ projectFeature }) => {
   const navigate = useNavigate();

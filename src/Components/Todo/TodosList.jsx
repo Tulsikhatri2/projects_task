@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 import { BiEditAlt } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
-import { deleteTodos, editingTodos } from "../Redux/ProjectsCRUD/Todo/todoSlice";
+import { deleteTodos, editingTodos } from "../../Redux/ProjectsCRUD/Todo/todoSlice";
 import { toast, Zoom } from "react-toastify";
 
 

@@ -1,33 +1,25 @@
+import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Box, Button, TextField } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-// import { createFeature } from "../Redux/ProjectsCRUD/Feature/featureSlice";
-import FeatureBox from "./FeatureBox";
-import { useParams } from "react-router-dom";
+import { createProject, updateProject } from "../../Redux/ProjectsCRUD/Project/projectSlice";
 import { toast, Zoom } from "react-toastify";
+import ProjectBox from "./ProjectBox";
 import { BiEditAlt } from "react-icons/bi";
-import {
-  createFeature,
-  featureCountUpdate,
-  updateFeature,
-} from "../Redux/ProjectsCRUD/Feature/featureSlice";
 
-const Features = () => {
-  const { featureList, editFeature } = useSelector((state) => state.features);
-  const { pID } = useParams();
-  const [featureTitle, setFeatureTitle] = useState("");
+const Projects = () => {
+  const [projectTitle, setProjectTitle] = useState("");
+  const {editProject} =  useSelector(state=>state.projects)
   const dispatch = useDispatch();
 
-  const projectFeature = featureList?.filter((item) => item.projectID === pID);
-
-  useEffect(() => {
-    setFeatureTitle(editFeature?.feature?.title);
-  }, [editFeature]);
+  useEffect(()=>{
+    setProjectTitle(editProject?.project.title)
+  },[editProject])
 
   function handleSubmit(e) {
-    e.preventDefault();
-    if (!featureTitle) {
-      toast.error("Add some name for your feature!", {
+    e.preventDefault()
+    if (!projectTitle) {
+      toast.error('Add some name for your project!', {
         position: "top-center",
         autoClose: 1000,
         hideProgressBar: false,
@@ -37,17 +29,14 @@ const Features = () => {
         progress: undefined,
         theme: "light",
         transition: Zoom,
-      });
+        });
     } else {
-      if (!editFeature?.isEdit) {
-        dispatch(
-          createFeature({
-            id: crypto.randomUUID(),
-            title: featureTitle,
-            projectID: pID,
-          })
-        );
-        toast.info("Feature added sucessfully!", {
+      if(editProject.isEdit){
+        dispatch(updateProject({
+          id: editProject.project.id,
+          title:projectTitle
+        }))
+        toast.info('Project updated sucessfully!', {
           position: "top-center",
           autoClose: 1000,
           hideProgressBar: false,
@@ -57,56 +46,58 @@ const Features = () => {
           progress: undefined,
           theme: "light",
           transition: Zoom,
-        });
-      } else {
-        dispatch(
-          updateFeature({
-            id: editFeature.feature.id,
-            title: featureTitle,
-            projectID: editFeature.feature.projectID,
-          })
-        );
-        toast.info("Feature updated sucessfully!", {
-          position: "top-center",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Zoom,
-        });
+          }) 
       }
-      setFeatureTitle("");
+      else{
+        dispatch(
+          createProject({
+            id: crypto.randomUUID(),
+            title: projectTitle,
+          })
+        );
+        toast.info('Project added sucessfully!', {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Zoom,
+          }) 
+      }
+       setProjectTitle("");
     }
   }
 
   return (
     <>
-      <Box className="boxFeature1">
+      <Box className="boxProject1">
         <Box className="box2">
           <Box className="box3">
             <h3 className="headings">
               <span className="headingSpan1">
-                <u>Features</u>
+                <u>Projects</u>
               </span>
               <span className="headingSpan2">
                 <TextField
-                  label="Add Features"
+                  label="Add Projects"
                   variant="filled"
                   sx={{
                     "& .MuiFilledInput-root": {
                       color: "#2C0B1F",
+                      fontSize: "2vh",
                       fontWeight: "bold",
-                      backgroundColor: "#f4f4f4",
+                      backgroundColor: "white",
                       borderTopLeftRadius: "7px",
                       borderTopRightRadius: "7px",
                       height: "2.5rem",
                       width: "15rem",
+
                       "&:before": {
                         borderColor: "#2C0B1F",
-                        borderWidth: "2px",
+                        borderWidth: "1px",
                         fontWeight: "bold",
                         fontSize: "2vh",
                       },
@@ -127,35 +118,31 @@ const Features = () => {
                       },
                     },
                   }}
-                  value={featureTitle}
-                  onChange={(e) => setFeatureTitle(e.target.value)}
+                  value={projectTitle}
+                  onChange={(e) => setProjectTitle(e.target.value)}
                 />
                 <Button
                   variant="contained"
                   sx={{
-                    color: "#2C0B1F",
+                    color: "#0F1423",
                     backgroundColor: "white",
                     marginLeft: "2vh",
                     height: "6vh",
                     fontSize: "4vh",
                     "&:hover": {
-                      backgroundColor: "#2C0B1F",
+                      backgroundColor: "#0F1423",
                       color: "white",
                     },
                   }}
                   onClick={handleSubmit}
                 >
-                  {editFeature?.isEdit ? (
-                    <BiEditAlt style={{ fontSize: "3vh" }} />
-                  ) : (
-                    "+"
-                  )}
+                  {editProject.isEdit?<BiEditAlt style={{fontSize:"3vh"}}/>:"+"}
                 </Button>
               </span>
             </h3>
           </Box>
           <Box className="box4">
-            <FeatureBox projectFeature={projectFeature} />
+            <ProjectBox />
           </Box>
         </Box>
       </Box>
@@ -163,4 +150,4 @@ const Features = () => {
   );
 };
 
-export default Features;
+export default Projects;

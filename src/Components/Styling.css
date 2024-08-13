@@ -14,17 +14,17 @@
 .boxProject1{
     width: 100vw;
     height: 100vh;
-    background-color: #0F1423;
+    /* background-color: #0F1423; */
     display: flex;
     align-items: center;
     justify-content: center
 }
 .box2{
-    width: 70%;
-    height: 80%;
-    background-color: #BCC1BA;
-    box-shadow: 0px 0px 30vh #000000;
-    border-radius: 1rem
+    width: 80%;
+    height: 90%;
+    background-color: #dcdfdb;
+    box-shadow: 0px 0px 3vh #000000;
+    border-radius: 0.5rem
 }
 .box3{
     width: 100%;
@@ -44,7 +44,7 @@
 .boxTodo1{
     width: 100vw;
     height: 100vh;
-    background-color: #091916;
+    /* background-color: #091916; */
     display: flex;
     align-items: center;
     justify-content: center
@@ -62,7 +62,7 @@
 .boxFeature1{
     width: 100vw;
     height: 100vh;
-    background-color: #2C0B1F;
+    /* background-color: #2C0B1F; */
     display: flex;
     align-items: center;
     justify-content: center
@@ -73,7 +73,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 4vh;
+    font-size: 3.3vh;
     color: #092523
 }
 
@@ -96,7 +96,7 @@
     height: 30%;
     background-color: #fff;
     margin: 2vh;
-    border-radius: 2vh;
+    border-radius: 1vh;
     box-shadow: inset 0px 0px 10px #000;
     padding-left: 1vh
 }
@@ -149,14 +149,14 @@
 }
 
 .todoListBox{
-    width: 70%;
+    width: 85%;
     height: 15%;
     background-color: white;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     box-shadow: inset 0px 0px 10px #000;
     padding-left: 2vh;
     padding-right: 2vh;
-    margin-top: 2vh
+    margin-top: 1vh
 }
 
 .todoListSpan1{
@@ -202,4 +202,109 @@
 .disabledButton{
     opacity: 0.6;
     cursor: not-allowed;
+}
+
+.loginScreen{
+    width:100vw;
+    height:100vh;
+    background-color: rgb(207, 211, 210);
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.loginBox{
+    width:30vw;
+    height:60vh;
+    background-color: white;
+    border: 1px solid rgb(179, 176, 176);
+    border-radius: 1vh;
+    box-shadow: 0px 0px 2vh rgb(46, 44, 44);
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family:system-ui;
+}
+
+.logoBox{
+    width:100%;
+    height:5vh;
+    font-size: 3.5vh;
+    display: flex;
+    font-weight: bold;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background: -webkit-linear-gradient(111.3deg,#9c27b0, #00bcd4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family:system-ui;
+    margin-top: 5vh;
+}
+
+.loginDetailBox{
+    width:80%;
+    height: 25vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 3vh;
+    
+}
+
+.login{
+    width:90%;
+}
+
+.loginButton{
+    width:90%;  
+    background-image: linear-gradient(to right,#9c27b0, #00bcd4 );
+}
+
+.loginOptions{
+    width:90%;
+    height:18vh;
+    font-size: 2vh;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border-top: 1px solid rgb(184, 182, 182);
+    color:rgb(105, 104, 104);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loginOtherOptions{
+    width:90%;
+    height:6vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center ;
+    margin-top: -1vh;
+}
+
+.loginOptionsStyle{
+    width:10%;
+    height:80%;
+    border:1px solid gray;
+    border-radius: 50%;
+    font-size: 2.8vh;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1vh;
+}
+
+.register{
+    color:#9c27b0;
+    cursor: pointer;
+}
+
+.registrationScreen{
+    width:70%;
+    height:100vh;
+    margin-left: 14vw;
 }
