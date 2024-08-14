@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoginPage from "./Components/Login/LoginPage";
 import Registration from "./Components/Login/Registration";
+import SuccessfulRegistraion from "./Components/Login/SuccessfulRegistraion";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/projects" element={<Projects />} />
         <Route path="/features/:pID" element={<Features />} />
         <Route path="/todos/:fID/:pID" element={<Todos />} />
+        <Route path="/registrationSuccess" element={<SuccessfulRegistraion/>}/>
       </Routes>
       <ToastContainer/>
     </>

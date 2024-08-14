@@ -6,21 +6,33 @@ import { createProject, updateProject } from "../../Redux/ProjectsCRUD/Project/p
 import { toast, Zoom } from "react-toastify";
 import ProjectBox from "./ProjectBox";
 import { BiEditAlt } from "react-icons/bi";
+import { PiListPlusFill } from "react-icons/pi";
+import { useNavigate } from "react-router-dom";
 
 const Projects = () => {
+  const dataInfo = [
+    "Today's Task",
+    "Upcoming Task",
+    "Personal Task",
+    "Professional Task",
+    "Most Important Task",
+    "Completed Task",
+    "Trashed",
+  ];
+  const navigate = useNavigate();
   const [projectTitle, setProjectTitle] = useState("");
-  const {editProject} =  useSelector(state=>state.projects)
+  const { editProject } = useSelector((state) => state.projects);
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-    setProjectTitle(editProject?.project.title)
-  },[editProject])
+  useEffect(() => {
+    setProjectTitle(editProject?.project.title);
+  }, [editProject]);
 
   function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
     if (!projectTitle) {
-      toast.error('Add some name for your project!', {
-        position: "top-center",
+      toast.error("Add some name for your project!", {
+        position: "top-right",
         autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -29,15 +41,17 @@ const Projects = () => {
         progress: undefined,
         theme: "light",
         transition: Zoom,
-        });
+      });
     } else {
-      if(editProject.isEdit){
-        dispatch(updateProject({
-          id: editProject.project.id,
-          title:projectTitle
-        }))
-        toast.info('Project updated sucessfully!', {
-          position: "top-center",
+      if (editProject.isEdit) {
+        dispatch(
+          updateProject({
+            id: editProject.project.id,
+            title: projectTitle,
+          })
+        );
+        toast.info("Project updated sucessfully!", {
+          position: "top-right",
           autoClose: 1000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -46,17 +60,16 @@ const Projects = () => {
           progress: undefined,
           theme: "light",
           transition: Zoom,
-          }) 
-      }
-      else{
+        });
+      } else {
         dispatch(
           createProject({
             id: crypto.randomUUID(),
             title: projectTitle,
           })
         );
-        toast.info('Project added sucessfully!', {
-          position: "top-center",
+        toast.info("Project added sucessfully!", {
+          position: "top-right",
           autoClose: 1000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -65,15 +78,118 @@ const Projects = () => {
           progress: undefined,
           theme: "light",
           transition: Zoom,
-          }) 
+        });
       }
-       setProjectTitle("");
+      setProjectTitle("");
     }
   }
 
   return (
     <>
-      <Box className="boxProject1">
+      <Box className="dashboard">
+        <Box className="dashboardNavbar">
+          <Box className="profileImage"></Box>
+          <Box className="profileInfo">
+            <p style={{ fontWeight: "bold", fontSize: "3vh", color: "black" }}>
+              Priya Soni
+            </p>
+            <p>priya123@gmail.com</p>
+            <p>6789056437</p>
+          </Box>
+          <Box className="dataInfo">
+            {dataInfo.map((item) => {
+              return (
+                <>
+                  <Box className="dataList">
+                    <p style={{ marginTop: "1.5vh" }}>{item}</p>
+                  </Box>
+                </>
+              );
+            })}
+          </Box>
+          <Box className="logoutBox">
+            <Button
+              variant="contained"
+              sx={{
+                fontFamily: "'Trebuchet MS'",
+                fontSize: "2vh",
+                backgroundColor: "maroon",
+                fontWeight: "bold",
+                "&:hover": {
+                  color: "maroon",
+                  backgroundColor: "white",
+                },
+              }}
+              onClick={() => navigate("/")}
+            >
+              Logout
+            </Button>
+          </Box>
+        </Box>
+
+        <Box className="contentInfo">
+          <Box className="dashboardHeading">
+            <p>
+              <PiListPlusFill
+                style={{ fontSize: "5vh", marginLeft: "2vw", marginTop: "1vh" }}
+              />
+            </p>
+            <p style={{ marginTop: "4vh", fontWeight: "bold" }}>TodoTask</p>
+            <p
+              style={{
+                marginTop: "4vh",
+                marginLeft: "28vw",
+                fontWeight: "bold",
+              }}
+            >
+              <u>Pirya's Dashboard</u>
+            </p>
+          </Box>
+          <Box className="content">
+            <Box className="contentHeadder">
+              <p>Projects</p>
+              <Box className="projectsAdd">
+                <TextField
+                  label="Add Project"
+                  value={projectTitle}
+                  onChange={(e) => setProjectTitle(e.target.value)}
+                  InputProps={{
+                    style: {
+                      borderRadius: "4vh",
+                      height: "7vh",
+                      fontFamily: "'Trebuchet MS'",
+                    },
+                  }}
+                  InputLabelProps={{
+                    style: {
+                      fontSize: "2vh",
+                      marginTop: "-0.5vh",
+                    },
+                  }}
+                />
+                <Box className="addButton" onClick={handleSubmit}>
+                  {editProject.isEdit ? (
+                    <BiEditAlt style={{ fontSize: "3vh" }} />
+                  ) : (
+                    "+"
+                  )}
+                </Box>
+              </Box>
+            </Box>
+            <Box className="projectsDisplay">
+              <ProjectBox />
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </>
+  );
+};
+
+export default Projects;
+
+{
+  /* <Box className="boxProject1">
         <Box className="box2">
           <Box className="box3">
             <h3 className="headings">
@@ -145,9 +261,5 @@ const Projects = () => {
             <ProjectBox />
           </Box>
         </Box>
-      </Box>
-    </>
-  );
-};
-
-export default Projects;
+      </Box> */
+}
