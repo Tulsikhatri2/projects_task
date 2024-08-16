@@ -2,10 +2,16 @@ import React from 'react'
 import congratulations from "../../Assets/success.jpg"
 import tickMark from "../../Assets/tickMark.png" 
 import { Box, Button } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { userLogged } from '../../Redux/ProjectsCRUD/Dashboard/dashboardSlice'
 
 const SuccessfulRegistraion = () => {
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const handleDashboard = () => {
+      dispatch(userLogged(true))
+    }
   return (
     <>
     <Box className="congratulatios">
@@ -16,7 +22,7 @@ const SuccessfulRegistraion = () => {
     </Box>
     <Box className="startWithTodo">
         <Button variant='contained' className='dashboardButton'
-        onClick={()=>navigate("/projects")}> Open Dashboard</Button>
+        onClick={()=>handleDashboard()}> Open Dashboard</Button>
     </Box>
     </>
   )

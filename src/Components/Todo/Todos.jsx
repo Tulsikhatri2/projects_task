@@ -15,14 +15,11 @@ const Todos = () => {
   const {pID} = useParams()
   const { todoList, editTodo } = useSelector((state) => state.todos);
 
-  // const todoData = todoList
   const featureTodo = todoList?.filter((item)=>item?.featureId == fID)
-
-
+console.log(pID,"todosProject")
   useEffect(()=>{
     setTodosTitle(editTodo?.todo.title)
   },[editTodo])
-
 
   function handleTodosSubmit() {
     if(!todosTitle){
@@ -86,81 +83,39 @@ const Todos = () => {
 
   return (
     <>
-      <Box className="boxTodo1">
-        <Box className="box2">
-          <Box className="box3">
-            <h3 className="headings">
-              <span className="headingSpan1">
-                <u>Todos</u>
-              </span>
-              <span className="headingSpan2">
+      <Box className="contentHeadder">
+              <p>Todos</p>
+              <Box className="projectsAdd">
                 <TextField
-                  label="Add Todos"
-                  variant="filled"
-                  sx={{
-                    "& .MuiFilledInput-root": {
-                      color: "#2C0B1F",
-                      fontSize: "2vh",
-                      fontWeight: "bold",
-                      backgroundColor: "white",
-                      borderTopLeftRadius: "7px",
-                      borderTopRightRadius: "7px",
-                      height: "2.5rem",
-                      width: "15rem",
-    
-                      "&:before": {
-                        borderColor: "#2C0B1F",
-                        borderWidth: "1px",
-                        fontWeight: "bold",
-                        fontSize: "2vh",
-                      },
-                      "&:after": {
-                        borderColor: "#2C0B1F",
-                        borderWidth: "3px",
-                        fontSize: "2vh",
-                      },
-                    },
-                    "& .MuiInputLabel-filled": {
-                      color: "#8C8B89",
-                      fontSize: "2vh",
-                      "&.Mui-focused": {
-                        color: "#000",
-                        fontSize: "2vh",
-                      },
-                    },
-                  }}
+                  label="Add Todo"
                   value={todosTitle}
                   onChange={(e) => setTodosTitle(e.target.value)}
-                />
-                <Button
-                  variant="contained"
-                  sx={{
-                    color: "#091916",
-                    backgroundColor: "white",
-                    marginLeft: "2vh",
-                    height: "6vh",
-                    fontSize: "4vh",
-                    "&:hover": {
-                      backgroundColor: "#091916",
-                      color: "white",
+                  InputProps={{
+                    style: {
+                      borderRadius: "4vh",
+                      height: "7vh",
+                      fontFamily: "'Trebuchet MS'",
                     },
                   }}
-                  onClick={handleTodosSubmit}
-                >
-                 {editTodo?.isEdit ? (
+                  InputLabelProps={{
+                    style: {
+                      fontSize: "2vh",
+                      marginTop: "-0.5vh",
+                    },
+                  }}
+                />
+                <Box className="addButton" onClick={handleTodosSubmit}>
+                  {editTodo.isEdit ? (
                     <BiEditAlt style={{ fontSize: "3vh" }} />
                   ) : (
                     "+"
                   )}
-                </Button>
-              </span>
-            </h3>
-          </Box>
-          <Box className="boxTodo4">
-            <TodosList featureTodo={featureTodo}/>
-          </Box>
-        </Box>
-      </Box>
+                </Box>
+              </Box>
+            </Box>
+            <Box className="projectsDisplay">
+             <TodosList featureTodo={featureTodo}/> 
+            </Box>
     </>
   );
 };

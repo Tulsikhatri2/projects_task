@@ -8,17 +8,10 @@ import ProjectBox from "./ProjectBox";
 import { BiEditAlt } from "react-icons/bi";
 import { PiListPlusFill } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
+import Features from "../Feature/Features"
 
 const Projects = () => {
-  const dataInfo = [
-    "Today's Task",
-    "Upcoming Task",
-    "Personal Task",
-    "Professional Task",
-    "Most Important Task",
-    "Completed Task",
-    "Trashed",
-  ];
+  
   const navigate = useNavigate();
   const [projectTitle, setProjectTitle] = useState("");
   const { editProject } = useSelector((state) => state.projects);
@@ -86,66 +79,7 @@ const Projects = () => {
 
   return (
     <>
-      <Box className="dashboard">
-        <Box className="dashboardNavbar">
-          <Box className="profileImage"></Box>
-          <Box className="profileInfo">
-            <p style={{ fontWeight: "bold", fontSize: "3vh", color: "black" }}>
-              Priya Soni
-            </p>
-            <p>priya123@gmail.com</p>
-            <p>6789056437</p>
-          </Box>
-          <Box className="dataInfo">
-            {dataInfo.map((item) => {
-              return (
-                <>
-                  <Box className="dataList">
-                    <p style={{ marginTop: "1.5vh" }}>{item}</p>
-                  </Box>
-                </>
-              );
-            })}
-          </Box>
-          <Box className="logoutBox">
-            <Button
-              variant="contained"
-              sx={{
-                fontFamily: "'Trebuchet MS'",
-                fontSize: "2vh",
-                backgroundColor: "maroon",
-                fontWeight: "bold",
-                "&:hover": {
-                  color: "maroon",
-                  backgroundColor: "white",
-                },
-              }}
-              onClick={() => navigate("/")}
-            >
-              Logout
-            </Button>
-          </Box>
-        </Box>
-
-        <Box className="contentInfo">
-          <Box className="dashboardHeading">
-            <p>
-              <PiListPlusFill
-                style={{ fontSize: "5vh", marginLeft: "2vw", marginTop: "1vh" }}
-              />
-            </p>
-            <p style={{ marginTop: "4vh", fontWeight: "bold" }}>TodoTask</p>
-            <p
-              style={{
-                marginTop: "4vh",
-                marginLeft: "28vw",
-                fontWeight: "bold",
-              }}
-            >
-              <u>Pirya's Dashboard</u>
-            </p>
-          </Box>
-          <Box className="content">
+          
             <Box className="contentHeadder">
               <p>Projects</p>
               <Box className="projectsAdd">
@@ -177,11 +111,8 @@ const Projects = () => {
               </Box>
             </Box>
             <Box className="projectsDisplay">
-              <ProjectBox />
+             <ProjectBox /> 
             </Box>
-          </Box>
-        </Box>
-      </Box>
     </>
   );
 };

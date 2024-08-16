@@ -7,9 +7,10 @@ import { deleteProject, editProject } from "../../Redux/ProjectsCRUD/Project/pro
 import { useNavigate } from "react-router-dom";
 import { projectTodoDelete } from "../../Redux/ProjectsCRUD/Todo/todoSlice";
 import { projectFeatureDelete } from "../../Redux/ProjectsCRUD/Feature/featureSlice";
+import { featurePage } from "../../Redux/ProjectsCRUD/Dashboard/dashboardSlice";
 
 const ProjectBox = () => {
-  const { projectList,  } = useSelector((state) => state.projects);
+  const { projectList } = useSelector((state) => state.projects);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -24,7 +25,8 @@ const ProjectBox = () => {
   }
 
   function handleFeatures(pID) {
-    navigate(`/features/${pID}`);
+    dispatch(featurePage(true))
+    navigate(`/dashboard/features/${pID}`);
   }
 
   function handleDeleteProject(id) {

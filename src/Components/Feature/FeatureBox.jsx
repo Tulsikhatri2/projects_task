@@ -7,12 +7,13 @@ import { deleteFeature } from "../../Redux/ProjectsCRUD/Feature/featureSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { editingFeature } from "../../Redux/ProjectsCRUD/Feature/featureSlice";
 import { featureTodoDeleted } from "../../Redux/ProjectsCRUD/Todo/todoSlice";
+import { todoPage } from "../../Redux/ProjectsCRUD/Dashboard/dashboardSlice";
 
 const FeatureBox = ({ projectFeature }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {pID} = useParams()
-  // console.log(pID, "featureprojectID")
+  console.log(pID, "featureprojectID")
 
   if (projectFeature?.length === 0) {
     return (
@@ -29,12 +30,12 @@ const FeatureBox = ({ projectFeature }) => {
     dispatch(featureTodoDeleted(id))
   }
 
-  function handleTodos(fID) {
-    navigate(`/todos/${fID}/${pID}`);
+  function handleTodos(fID, pID) {
+    dispatch(todoPage(true))
+    navigate(`/dashboard/todos/${fID}/${pID}`);
   }
 
   const handleFeatureEdit = (feature) => {
-    console.log("121332")
     dispatch(editingFeature(feature))
   }
 

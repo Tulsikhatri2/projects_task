@@ -4,7 +4,7 @@ const projectSlice = createSlice({
   name: "projects",
   initialState: {
     projectList: [],
-    editProject : {project:{}, isEdit:false}
+    editProject : {project:{}, isEdit:false},
   },
   reducers: {
     createProject: (state, action) => {
@@ -35,7 +35,7 @@ const projectSlice = createSlice({
             projectList: state.projectList.map((item)=> item.id == action.payload.id ? action.payload : item),
             editProject:{project:{}, isEdit:false}
         }
-    }
+    },
   },
 });
 
